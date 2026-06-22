@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  
+  expenses    Expense[]
+  salaries    Salary[]
+  categories  Category[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  icon      String?
+  color     String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expenses  Expense[]
+  createdAt DateTime @default(now())
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Float
+  date        DateTime
+  paymentMethod String  // PIX, DEBIT, CREDIT
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  isPending   Boolean  @default(false)  // for credit card (next month)
+  month       Int      // 1-12
+  year        Int
+  createdAt   DateTime @default(now())
+}
+
+model Salary {
+  id        String   @id @default(cuid())
+  amount    Float
+  month     Int
+  year      Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, month, year])
+}
