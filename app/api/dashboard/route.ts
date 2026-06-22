@@ -26,10 +26,18 @@ export async function GET(request: Request) {
   const salaryAmount = salary?.amount || 0
   const balance = salaryAmount - totalExpenses
 
-  const byCategory = categories.map((cat: { id: string; name: string; icon: string; color: string }) => {
+  const byCategory = categories.map((cat: { id: string; name: string; icon: string | null; color: string | null }) => {
     const catExpenses = expenses.filter((e: { categoryId: string }) => e.categoryId === cat.id)
     const total = catExpenses.reduce((sum: number, e: { amount: number }) => sum + e.amount, 0)
-    return { category: cat, total, count: catExpenses.length }
+    return {
+      category: {
+        ...cat,
+        icon: cat.icon ?? '📦',
+        color: cat.color ?? '#8B6914',
+      },
+      total,
+      count: catExpenses.length,
+    }
   }).filter((c: { count: number }) => c.count > 0)
 
   const byPayment: Record<string, number> = {}
