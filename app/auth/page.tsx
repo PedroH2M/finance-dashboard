@@ -164,6 +164,22 @@ export default function AuthPage() {
             </button>
           </form>
 
+<<<<<<< HEAD
+=======
+          {mode === 'login' && (
+            <div style={{
+              marginTop: '1.25rem', padding: '1rem',
+              background: 'var(--bg-secondary)', borderRadius: '10px',
+              fontSize: '0.8125rem', color: 'var(--text-muted)',
+            }}>
+              <p style={{ margin: '0 0 0.5rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                Contas de demonstração:
+              </p>
+              <p style={{ margin: '0.2rem 0' }}>📧 pedro@finance.com — 🔑 pedro123</p>
+              <p style={{ margin: '0.2rem 0' }}>📧 sabrina@finance.com — 🔑 sabrina123</p>
+            </div>
+          )}
+>>>>>>> 6e5802a3e0789e79b8846120a6ab335c8b4e2430
         </div>
       </div>
     </div>
